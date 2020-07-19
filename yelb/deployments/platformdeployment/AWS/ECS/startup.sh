@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install packages
-sudo yum update
+sudo yum update -y
 sudo yum install jq moreutils -y
 
 # Upgrade pip
