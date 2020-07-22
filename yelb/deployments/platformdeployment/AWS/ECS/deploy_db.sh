@@ -1,10 +1,12 @@
 export YELB_DB_ENDPOINT=$(aws cloudformation describe-stacks --stack-name yelb-fargate --query "Stacks[0].Outputs[?OutputKey=='YelbDBEndpointUrl'].OutputValue" --output text)
+export POSTGRES_PASSWORD=postgres_password
+
 sudo yum install -y postgresql postgresql-server postgresql-devel postgresql-contrib postgresql-docs
 sudo service postgresql initdb
 #!/bin/bash
 set -e
 
-psql --host=$YELB_DB_ENDPOINT --port=5432 --username=postgres <<-EOSQL
+PGPASSWORD=$POSTGRES_PASSWORD psql --host=$YELB_DB_ENDPOINT --port=5432 --username=postgres <<-EOSQL
     \connect yelbdatabase;
 	CREATE TABLE restaurants (
     	name        char(30),
